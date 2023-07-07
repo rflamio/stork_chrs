@@ -2,9 +2,14 @@
 
 R markdown files and companion files associated with the manuscript "Chromosome-level genome of the wood stork (Mycteria americana) provides insight into avian chromosome evolution."
 
-Description of R markdown files:
+Description of the R markdown file "Genome_Comparison.Rmd"
 
-1. Genome_Comparison.Rmd: R markdown for variant calling of sockeye salmon dataset from raw reads to filtered variants.
+The R markdown contains the script for chromosome orthology analysis of the wood stork (Mycteria americana) genome with the following avian species: chicken (Gallus gallus), zebra finch (Taeniopygia guttata), Humboldt penguin (Spheniscus humboldti), plumebous ibis (Theristicus caerulescens), and maguari stork (Ciconia maguari). Pairwise mApping Format (PAF) files for the analysis were produced using D-GENIES v1.4.0 (Cabanettes & Klopp, 2018). The following analyses are present in the markdown in this order:
+1. Alignment of wood stork W and Z scaffolds with chicken and maguari stork.
+2. Visualization of the known chromosomal fusion of chicken GGA4.
+3. 
+
+
 
 Description of companion files in  (files needed for Genome_Comparison.Rmd):
 
