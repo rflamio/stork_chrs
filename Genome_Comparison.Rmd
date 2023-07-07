@@ -1,0 +1,1282 @@
+---
+title: "Chromosome Orthology"
+author: "Richard Flamio"
+date: "2022-10-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+# Set working directory
+
+knitr::opts_knit$set(root.dir = "~/Stork/D-Genies")
+
+# Packages
+
+library("pafr")
+library("ggplot2")
+library("dplyr")
+library("RColorBrewer")
+
+```
+
+# Read in PAF files
+
+```{r}
+
+# Wood Stork (MAM) vs. Chicken (GGA)
+
+S2C_align <- read_paf("Chicken/S2Ch_paf.paf")
+
+# Wood Stork (MAM) vs. Finch (TGU)
+
+S2F_align <- read_paf("Finch/S2F_paf.paf")
+
+# Wood Stork (MAM) vs. Cuckoo (CCA)
+
+S2Cu_align <- read_paf("Cuckoo/S2Cu_paf.paf")
+
+# Wood Stork (MAM) vs. Humboldt Penguin (SHU)
+
+S2P_align <- read_paf("Penguin/S2P_paf.paf")
+
+# Wood Stork (MAM) vs. Maguari Stork (CMA)
+S2S_align <- read_paf("Maguari/S2S_paf.paf")
+
+```
+
+Wood Stork chromosomes = MAM 
+Chicken chromosomes = GGA
+Finch chromosomes = TGU
+Common cuckoo chromosomes = CCA
+Humboldt penguin chromosomes = SHU
+Maguari stork chromosomes = CMA
+
+# Wood Stork Sex Chromosomes (MAMZ and MAMW)
+
+## MAMZ scaffolds
+
+### Vs. GGAZ
+
+```{r}
+
+# Subset and filter alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+S2C_temp <- dplyr::filter(S2C_filt, tname %in% c("CM028522.1"))
+S2C_Z <- dplyr::filter(S2C_temp, qname %in% c("Scaffold_9__6_contigs__length_80020926", "Scaffold_18__1_contigs__length_16489343", "Scaffold_30__1_contigs__length_3229230"))
+
+# Plot
+
+plot_coverage(S2C_Z, fill='qname', direct_label=FALSE, xlab='GGAZ') + scale_fill_brewer(palette="Dark2")
+
+```
+
+### Vs. CMAZ
+
+```{r}
+
+# Subset and filter alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+S2S_temp <- dplyr::filter(S2S_filt, tname %in% c("CM030223.1"))
+S2S_Z <- dplyr::filter(S2S_temp, qname %in% c("Scaffold_9__6_contigs__length_80020926", "Scaffold_18__1_contigs__length_16489343", "Scaffold_30__1_contigs__length_3229230"))
+
+# Plot
+
+plot_coverage(S2S_Z, fill='qname', direct_label=FALSE, xlab='CMAZ') + scale_fill_brewer(palette="Dark2")
+
+```
+
+## MAMW scaffolds
+
+### Vs. GGAW
+
+```{r}
+
+# Subset and filter alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+S2C_temp <- dplyr::filter(S2C_filt, tname %in% c("CM028521.1"))
+S2C_W <- dplyr::filter(S2C_temp, qname %in% c("Scaffold_32__1_contigs__length_2703718", "Scaffold_33__1_contigs__length_2459023"))
+
+# Plot
+
+plot_coverage(S2C_W, fill='qname', direct_label=FALSE, xlab='GGAW') + scale_fill_brewer(palette="Paired")
+
+```
+
+### Vs. CMAW
+
+```{r}
+
+# Subset and filter alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+S2S_temp <- dplyr::filter(S2S_filt, tname %in% c("CM030222.1"))
+S2C_W <- dplyr::filter(S2S_temp, qname %in% c("Scaffold_32__1_contigs__length_2703718", "Scaffold_33__1_contigs__length_2459023"))
+
+# Plot
+
+plot_coverage(S2C_W, fill='qname', direct_label=FALSE, xlab='CMAW') + scale_fill_brewer(palette="Paired")
+
+```
+
+# Known chromosomal Fusion in Chicken 
+## MAM4 & MAM10 vs. GGA4
+
+```{r}
+
+# Subset and filter alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+S2C_temp <- dplyr::filter(S2C_filt, tname %in% c("CM028485.1"))
+S2C_4 <- dplyr::filter(S2C_temp, qname %in% c("Scaffold_7__2_contigs__length_92937730", "Scaffold_19__2_contigs__length_27056102"))
+
+# Plot
+
+plot_coverage(S2C_4, fill='qname', direct_label=FALSE, xlab='GGA4')
+
+```
+
+# Chromosomal Fusions in Storks
+
+## MAM6 
+
+### GGA6/GGA10
+
+```{r}
+
+# Subset and filter alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+S2C_temp <- dplyr::filter(S2C_filt, tname %in% c("CM028487.1", "CM028491.1"))
+S2C_6 <- dplyr::filter(S2C_temp, qname %in% c("Scaffold_5__1_contigs__length_71736795"))
+
+# Plot
+
+plot_coverage(S2C_6, fill='tname', direct_label=FALSE, target=FALSE, xlab='MAM6')
+
+```
+
+### SHU5/SHU12
+
+```{r}
+
+# Subset and filter alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+S2P_temp <- dplyr::filter(S2P_filt, tname %in% c("CM049891.1", "CM049898.1"))
+S2P_6 <- dplyr::filter(S2P_temp, qname %in% c("Scaffold_5__1_contigs__length_71736795"))
+
+# Plot
+
+plot_coverage(S2P_6, fill='tname', direct_label=FALSE, target=FALSE, xlab='MAM6')
+
+```
+
+## MAM7
+
+### GGA8/GGA9 
+
+```{r}
+
+# Subset and filter alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+S2C_temp <- dplyr::filter(S2C_filt, tname %in% c("CM028489.1", "CM028490.1"))
+S2C_6 <- dplyr::filter(S2C_temp, qname %in% c("Scaffold_6__1_contigs__length_70963223"))
+
+# Plot
+
+plot_coverage(S2C_6, fill='tname', direct_label=FALSE, target=FALSE, xlab='MAM7') + scale_fill_brewer(palette="Paired")
+
+```
+
+### SHU5/SHU6
+
+```{r}
+
+# Subset and filter alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+S2P_temp <- dplyr::filter(S2P_filt, tname %in% c("CM049891.1", "CM049892.1"))
+S2P_7 <- dplyr::filter(S2P_temp, qname %in% c("Scaffold_6__1_contigs__length_70963223"))
+
+# Plot
+
+plot_coverage(S2P_7, fill='tname', direct_label=FALSE, target=FALSE, xlab='MAM7')
+
+```
+
+## MAM8
+
+### GGA11/GGA13
+
+```{r}
+
+# Subset and filter alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+S2C_temp <- dplyr::filter(S2C_filt, tname %in% c("CM028492.1", "CM028494.1"))
+S2C_8 <- dplyr::filter(S2C_temp, qname %in% c("Scaffold_11__2_contigs__length_51305442"))
+
+# Plot
+
+plot_coverage(S2C_8, fill='tname', direct_label=FALSE, target=FALSE, xlab='MAM8') + scale_fill_brewer(palette="RdPu")
+
+```
+
+### SHU9/SHU10
+
+```{r}
+
+# Subset and filter alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+S2P_temp <- dplyr::filter(S2P_filt, tname %in% c("CM049895.1", "CM049896.1"))
+S2P_8 <- dplyr::filter(S2P_temp, qname %in% c("Scaffold_11__2_contigs__length_51305442"))
+
+# Plot
+
+plot_coverage(S2P_8, fill='tname', direct_label=FALSE, target=FALSE, xlab='MAM8')
+
+```
+
+# Chromosomes 25-31
+
+MAM25-29 are orthologous to CMA25-29. MAM30 and MAM31 are most likely chromosomes due to strong alignment with penguin microchromosomes and unplaced maguari stork scaffolds. 
+
+## MAM25
+
+### Vs. SHU28
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_filt, q_chrom="Scaffold_28__1_contigs__length_3912154", t_chrom="CM049914.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CMA25 
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_filt, q_chrom="Scaffold_28__1_contigs__length_3912154", t_chrom="CM030217.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. GGA25
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_filt, q_chrom="Scaffold_28__1_contigs__length_3912154", t_chrom="CM028506.1", centre=FALSE, xlab='Position')
+
+```
+
+## MAM26
+
+### Vs. SHU26 
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_filt, q_chrom="Scaffold_31__1_contigs__length_2997974", t_chrom="CM049912.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CMA26 
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_filt, q_chrom="Scaffold_31__1_contigs__length_2997974", t_chrom="CM030218.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. GGA34
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_filt, q_chrom="Scaffold_31__1_contigs__length_2997974", t_chrom="CM028515.1", centre=FALSE, xlab='Position')
+
+```
+
+## MAM27
+
+### Vs. CMA29
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_filt, q_chrom="Scaffold_36__1_contigs__length_2312801", t_chrom="CM030221.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. GGA31
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_filt, q_chrom="Scaffold_36__1_contigs__length_2312801", t_chrom="CM028512.1", centre=FALSE, xlab='Position')
+
+```
+
+## MAM28
+
+### Vs. SHU27
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_filt, q_chrom="Scaffold_47__1_contigs__length_1460787", t_chrom="CM049913.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CMA27
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_filt, q_chrom="Scaffold_47__1_contigs__length_1460787", t_chrom="CM030219.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. GGA30
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_filt, q_chrom="Scaffold_47__1_contigs__length_1460787", t_chrom="CM028511.1", centre=FALSE, xlab='Position', rc=TRUE)
+
+```
+
+## MAM29
+
+### Vs. SHU31
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_filt, q_chrom="Scaffold_64__1_contigs__length_498209", t_chrom="CM049917.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CMA28 
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_filt, q_chrom="Scaffold_64__1_contigs__length_498209", t_chrom="CM030220.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. GGA1 
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_64__1_contigs__length_498209", t_chrom="CM028482.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. TGU35
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_filt, q_chrom="Scaffold_64__1_contigs__length_498209", t_chrom="NC_054767.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CCA31
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_filt, q_chrom="Scaffold_64__1_contigs__length_498209", t_chrom="CM030667.1", centre=FALSE, xlab='Position')
+
+```
+
+## MAM30
+
+### Vs. SHU35
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_85__1_contigs__length_287344", t_chrom="CM049921.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CMA Scaffold JAGFVN010000100.1
+
+Also, see Chicken 39 vs. Wood Stork Scaffold 85 above. 
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_85__1_contigs__length_287344", t_chrom="JAGFVN010000100.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. GGA39
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_85__1_contigs__length_287344", t_chrom="CM028520.1", centre=FALSE, xlab='Position')
+
+```
+
+## MAM31
+
+### Vs. SHU32
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_97__1_contigs__length_237760", t_chrom="CM049918.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CMA Scaffold JAGFVN010000099.1
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_97__1_contigs__length_237760", t_chrom="JAGFVN010000099.1", centre=FALSE, xlab='Position')
+
+```
+
+# Additional analyses with chicken
+
+## GGA16 vs. Wood Stork Scaffold 140
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_filt, q_chrom="Scaffold_140__1_contigs__length_110051", t_chrom="CM028497.1", centre=FALSE, xlab='Position')
+
+```
+
+## GGA29 vs. Wood Stork Scaffold 68
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_68__1_contigs__length_465048", t_chrom="CM028510.1", centre=FALSE, xlab='Position')
+
+```
+
+## GGA32 vs. Wood Stork Scaffold 12
+
+Wood Stork Scaffold 12 = Wood Stork Chromosome 12
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_filt, q_chrom="Scaffold_12__1_contigs__length_21187108", t_chrom="CM028513.1", centre=FALSE, xlab='Position')
+
+# No significant alignments
+
+```
+
+## GGA33 vs. Wood Stork Scaffold 46
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_46__1_contigs__length_1483837", t_chrom="CM028514.1", centre=FALSE, xlab='Position')
+
+```
+
+## GGA35 vs. Wood Stork Scaffold 174
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_174__1_contigs__length_62148", t_chrom="CM028516.1", centre=FALSE, xlab='Position')
+
+```
+
+## GGA36 vs. Wood Stork Scaffold 107
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_107__1_contigs__length_190539", t_chrom="CM028517.1", centre=FALSE, xlab='Position')
+
+```
+
+## GGA37 vs. Wood Stork Scaffold 14
+
+Wood Stork Scaffold 14 = Wood Stork Chromosome 13
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_14__1_contigs__length_18981909", t_chrom="CM028518.1", centre=FALSE, xlab='Position')
+
+# No significant alignments
+
+```
+
+## GGA38 vs. Wood Stork Scaffold 43
+
+Wood Stork Scaffold 14 = Wood Stork Chromosome 13
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_43__1_contigs__length_1624240", t_chrom="CM028519.1", centre=FALSE, xlab='Position')
+
+```
+
+## GGA39 vs. Wood Stork Scaffold 85
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_85__1_contigs__length_287344", t_chrom="CM028520.1", centre=FALSE, xlab='Position')
+
+```
+
+# Additional analyses with finch
+
+## TGU16 vs. Wood Stork Scaffold 179
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_179__1_contigs__length_58873", t_chrom="NC_044228.2", centre=FALSE, xlab='Position')
+
+```
+
+## TGU31 vs. Wood Stork Scaffold 146
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_146__1_contigs__length_104144", t_chrom="NC_054763.1", centre=FALSE, xlab='Position')
+
+```
+
+## TGU32 vs. Wood Stork Scaffold 224
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_224__1_contigs__length_34522", t_chrom="NC_054764.1", centre=FALSE, xlab='Position')
+
+```
+
+## TGU33 vs. Wood Stork Scaffold 179
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_179__1_contigs__length_58873", t_chrom="NC_054765.1", centre=FALSE, xlab='Position')
+
+```
+
+## TGU34 vs. Wood Stork Scaffold 43
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_43__1_contigs__length_1624240", t_chrom="NC_054766.1", centre=FALSE, xlab='Position')
+
+```
+
+## TGU35 vs. Wood Stork Scaffold 86
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_86__1_contigs__length_284450", t_chrom="NC_054767.1", centre=FALSE, xlab='Position')
+
+```
+
+## TGU36 vs. Wood Stork Scaffold 224
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_224__1_contigs__length_34522", t_chrom="NC_054768.1", centre=FALSE, xlab='Position')
+
+```
+
+## TGU37 vs. Wood Stork Scaffold 179
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_179__1_contigs__length_58873", t_chrom="NC_054769.1", centre=FALSE, xlab='Position')
+
+```
+
+# Additional analyses with cuckoo
+
+## CCA32 vs. Wood Stork Scaffold 46
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_46__1_contigs__length_1483837", t_chrom="CM030668.1", centre=FALSE, xlab='Position')
+
+```
+
+## CCA33 vs. Wood Stork Scaffold 190
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_190__1_contigs__length_50665", t_chrom="CM030669.1", centre=FALSE, xlab='Position')
+
+```
+
+## CCA34 vs. Wood Stork Scaffold 165
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_165__1_contigs__length_70423", t_chrom="CM030670.1", centre=FALSE, xlab='Position')
+
+```
+
+## CCA35 vs. Wood Stork Scaffold 179
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_179__1_contigs__length_58873", t_chrom="CM030671.1", centre=FALSE, xlab='Position')
+
+```
+
+## CCA36 vs. Wood Stork Scaffold 133
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_133__1_contigs__length_124926", t_chrom="CM030672.1", centre=FALSE, xlab='Position')
+
+```
+
+## CCA37 vs. Wood Stork Scaffold 43
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_43__1_contigs__length_1624240", t_chrom="CM030673.1", centre=FALSE, xlab='Position')
+
+```
+
+## CCA38 vs. Wood Stork Scaffold 86
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_86__1_contigs__length_284450", t_chrom="CM030674.1", centre=FALSE, xlab='Position')
+
+```
+
+## CCA39 vs. Wood Stork Scaffold 98
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_filt, q_chrom="Scaffold_98__1_contigs__length_237561", t_chrom="CM030675.1", centre=FALSE, xlab='Position', rc=TRUE)
+
+```
+
+# Additional analyses with penguin 
+
+## SHU29 vs. Wood Stork Scaffold 42
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_42__1_contigs__length_1711218", t_chrom="CM049915.1", centre=FALSE, xlab='Position')
+
+```
+
+## SHU29 vs. Wood Stork Scaffold 45
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_45__1_contigs__length_1546540", t_chrom="CM049915.1", centre=FALSE, xlab='Position')
+
+```
+
+## SHU30 vs. Wood Stork Scaffold 43
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_43__1_contigs__length_1624240", t_chrom="CM049916.1", centre=FALSE, xlab='Position')
+
+```
+
+## SHU32 vs. Wood Stork Scaffold 97
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_97__1_contigs__length_237760", t_chrom="CM049918.1", centre=FALSE, xlab='Position')
+
+```
+
+## SHU33 vs. Wood Stork Scaffold 74
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_74__1_contigs__length_335872", t_chrom="CM049919.1", centre=FALSE, xlab='Position')
+
+```
+
+## SHU34 vs. Wood Stork Scaffold 204
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_204__1_contigs__length_41134", t_chrom="CM049920.1", centre=FALSE, xlab='Position')
+
+```
+
+# Potential chromosomes that have significant alignment with penguin but not with a maguari stork scaffold
+
+## Wood Stork Scaffold 74
+
+### Vs. SHU33
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_74__1_contigs__length_335872", t_chrom="CM049919.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CMA Scaffold JAGFVN010000010.1
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_74__1_contigs__length_335872", t_chrom="JAGFVN010000010.1", centre=FALSE, rc=TRUE, xlab='Position')
+
+```
+
+### Vs. CMA23
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_74__1_contigs__length_335872", t_chrom="CM030215.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. GGA35
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_74__1_contigs__length_335872", t_chrom="CM028516.1", centre=FALSE, xlab='Position')
+
+```
+
+## Wood Stork Scaffold 204
+
+### Vs. SHU34
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_204__1_contigs__length_41134", t_chrom="CM049920.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CMA Scaffold JAGFVN010000099.1
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_204__1_contigs__length_41134", t_chrom="JAGFVN010000099.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. GGA
+
+```{r}
+
+# Subset alignment
+
+S2P_filt <- subset(S2P_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2P_align, q_chrom="Scaffold_204__1_contigs__length_41134", t_chrom="CM049920.1", centre=FALSE, xlab='Position')
+
+```
+
+
+# Potential Wood Stork Microchromosomes
+
+Based on preceding unused microchromosome analysis.
+
+## Wood Stork Scaffold 85
+
+### Vs. Maguari Stork Scaffold JAGFVN010000100.1
+
+Also, see GGA39 vs. Wood Stork Scaffold 85 above. 
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_85__1_contigs__length_287344", t_chrom="JAGFVN010000100.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. TGU31
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_85__1_contigs__length_287344", t_chrom="NC_054763.1", centre=FALSE, xlab='Position')
+
+```
+
+### Vs. CCA34
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_85__1_contigs__length_287344", t_chrom="CM030670.1", centre=FALSE, xlab='Position')
+
+```
+
+## Wood Stork Scaffold 43
+
+### Vs. Maguari Stork Scaffold JAGFVN010000101.1
+
+Also, see Chicken 38, Finch 34, and Cuckoo 37 all vs. Wood Stork Scaffold 85 above. 
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_43__1_contigs__length_1624240", t_chrom="JAGFVN010000101.1", centre=FALSE, xlab='Position')
+
+```
+
+## Wood Stork Scaffold 98
+
+### Vs. Maguari Stork Scaffold JAGFVN010000101.1
+
+Also, see Cuckoo 39 vs. Wood Stork Scaffold 98 above. 
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_98__1_contigs__length_237561", t_chrom="JAGFVN010000124.1", centre=FALSE, xlab='Position')
+
+```
+
+## Wood Stork Scaffold 97
+
+### Vs. Maguari Stork Scaffold JAGFVN010000101.1
+
+Also, see Cuckoo 39 vs. Wood Stork Scaffold 98 above. 
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_97__1_contigs__length_237760", t_chrom="JAGFVN010000099.1", centre=FALSE, xlab='Position')
+
+```
+
+# Mitochondrion
+
+## Wood Stork Scaffold 228 
+
+### Vs. Chicken mitochondrion
+
+```{r}
+
+# Subset alignment
+
+S2C_filt <- subset(S2C_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2C_align, q_chrom="Scaffold_228__1_contigs__length_33031", t_chrom="CM028585.1", centre=FALSE, xlab='Position', rc=TRUE)
+
+```
+
+### Vs. Finch mitochondrion
+
+```{r}
+
+# Subset alignment
+
+S2F_filt <- subset(S2F_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2F_align, q_chrom="Scaffold_228__1_contigs__length_33031", t_chrom="NC_007897.1", centre=FALSE, xlab='Position', rc=TRUE)
+
+```
+
+### Vs. Cuckoo mitochondrion
+
+```{r}
+
+# Subset alignment
+
+S2Cu_filt <- subset(S2Cu_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2Cu_align, q_chrom="Scaffold_228__1_contigs__length_33031", t_chrom="CM030679.1", centre=FALSE, xlab='Position', rc=TRUE)
+
+```
+
+### Vs. Maguari Stork mitochondrion
+
+```{r}
+
+# Subset alignment
+
+S2S_filt <- subset(S2S_align, mapq > 30)
+
+# Synteny plot
+
+plot_synteny(S2S_align, q_chrom="Scaffold_228__1_contigs__length_33031", t_chrom="CM030224.1", centre=FALSE, xlab='Position', rc=TRUE)
+
+```
+
+
+
