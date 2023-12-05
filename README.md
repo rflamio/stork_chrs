@@ -1,6 +1,6 @@
 # stork_chrs
 
-R markdown files and companion files associated with the manuscript "Chromosome-level genome of the wood stork (Mycteria americana) provides insight into avian chromosome evolution."
+R markdown files and companion files associated with the manuscript "Chromosome-level genome of the wood stork (*Mycteria americana*) provides insight into avian chromosome evolution."
 
 Description of the R markdown file "Genome_Comparison.Rmd"
 
