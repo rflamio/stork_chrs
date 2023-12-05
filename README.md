@@ -4,7 +4,7 @@ R markdown files and companion files associated with the manuscript "Chromosome-
 
 Description of the R markdown file "Genome_Comparison.Rmd"
 
-The R markdown contains the script for chromosome orthology analysis of the wood stork (Mycteria americana) genome with the following avian species: chicken (Gallus gallus), zebra finch (Taeniopygia guttata), common cuckoo (Cuculus canorus), Humboldt penguin (Spheniscus humboldti), and maguari stork (Ciconia maguari). Pairwise mApping Format (PAF) files for the analysis were produced using D-GENIES v1.4.0 (Cabanettes & Klopp, 2018). The following analyses are present in the markdown in this order:
+The R markdown contains the script for chromosome orthology analysis of the wood stork (*Mycteria americana*) genome with the following avian species: chicken (*Gallus gallus*), zebra finch (*Taeniopygia guttata*), common cuckoo (*Cuculus canorus*), Humboldt penguin (*Spheniscus humboldti*), and maguari stork (*Ciconia maguari*). Pairwise mApping Format (PAF) files for the analysis were produced using D-GENIES v1.4.0 (Cabanettes & Klopp, 2018). The following analyses are present in the markdown in this order:
 1. Alignment of wood stork W and Z scaffolds with chicken and maguari stork.
 2. Visualization of the known chromosomal fusion of chicken GGA4.
 3. Identification of wood stork chromosome fusions by alignment with penguin and chicken.
